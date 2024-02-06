@@ -1,6 +1,3 @@
-let data = '';
-
-
 
 function init() {
     d3.json("https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json").then((response) => 
@@ -18,10 +15,10 @@ function init() {
             .property("value", name);
         });
 
-        testName = data.names[0];
-        buildDemographic(data, testName);
-        buildBarChart(data, testName);
-        buildBubbleChart(data, testName);
+        sampleValue = data.names[0];
+        buildDemographic(data, sampleValue);
+        buildBarChart(data, sampleValue);
+        buildBubbleChart(data, sampleValue);
     });
 }
 
@@ -36,24 +33,25 @@ function optionChanged(value) {
     });
 }
 
-function buildDemographic(data, name) {
-    name_metadata = data.metadata.filter((n) => {return n.id == name});
-    console.log(name_metadata);
+function buildDemographic(data, sample) {
+    sample_metadata = data.metadata.filter((n) => {return n.id == sample});
+    console.log(sample_metadata);
     
+    // reset old values
     metadata = d3.select('#sample-metadata').html("");
 
-    Object.entries(name_metadata[0]).forEach(([key,value]) => {
+    Object.entries(sample_metadata[0]).forEach(([key,value]) => {
         console.log('key:' + key + ', value:' + value) ;
         metadata.append("h5").text(`${key}: ${value}`);
     });
 }
 
-function buildBarChart(data, name) {
-    name_samples = data.samples.filter((n) => {return n.id == name});
-    console.log(name_samples);
-    let otu_ids = name_samples[0].otu_ids;
-    let otu_labels = name_samples[0].otu_labels;
-    let sample_values = name_samples[0].sample_values;
+function buildBarChart(data, sample) {
+    sampleData = data.samples.filter((n) => {return n.id == sample});
+    console.log(sampleData);
+    let otu_ids = sampleData[0].otu_ids;
+    let otu_labels = sampleData[0].otu_labels;
+    let sample_values = sampleData[0].sample_values;
 
     let trace = {
         // Slice the top 10 otus
@@ -72,12 +70,12 @@ function buildBarChart(data, name) {
 
 }
 
-function buildBubbleChart(data, name) {
-    name_samples = data.samples.filter((n) => {return n.id == name});
-    console.log(name_samples);
-    let otu_ids = name_samples[0].otu_ids;
-    let otu_labels = name_samples[0].otu_labels;
-    let sample_values = name_samples[0].sample_values;
+function buildBubbleChart(data, sample) {
+    sampleData = data.samples.filter((n) => {return n.id == sample});
+    console.log(sampleData);
+    let otu_ids = sampleData[0].otu_ids;
+    let otu_labels = sampleData[0].otu_labels;
+    let sample_values = sampleData[0].sample_values;
 
     let trace = {
         x: otu_ids,
